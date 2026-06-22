@@ -1,0 +1,45 @@
+---
+import { type CollectionEntry, getCollection, render } from "astro:content";
+
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import { formatDisplayDate } from "../../utils/content";
+
+export async function getStaticPaths() {
+  const essays = await getCollection("essays");
+
+  return essays.map((essay) => ({
+    params: {
+      slug: essay.id.replace(/\.(md|mdx)$/, ""),
+    },
+    props: {
+      essay,
+    },
+  }));
+}
+
+type Props = {
+  essay: CollectionEntry<"essays">;
+};
+
+const { essay } = Astro.props;
+const { Content } = await render(essay);
+---
+
+<BaseLayout
+  title={`${essay.data.title} · Ira Fernando`}
+  description={essay.data.summary}
+>
+  <article class="entry-page">
+    <header class="entry-header">
+      <p class="page-kicker">Essay</p>
+      <h1>{essay.data.title}</h1>
+      <p class="page-deck">{essay.data.deck}</p>
+      <p class="entry-stamp">
+        {formatDisplayDate(essay.data.publishedAt)} · {essay.data.readingTime}
+      </p>
+    </header>
+    <div class="prose">
+      <Content />
+    </div>
+  </article>
+</BaseLayout>

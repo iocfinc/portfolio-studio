@@ -1,0 +1,80 @@
+---
+import { getCollection } from "astro:content";
+
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import EntryCard from "../../components/EntryCard.astro";
+import {
+  entryPermalink,
+  formatDisplayDate,
+  groupNotesByYear,
+  notePermalink,
+} from "../../utils/content";
+
+const essays = [...(await getCollection("essays"))].sort(
+  (left, right) =>
+    right.data.publishedAt.getTime() - left.data.publishedAt.getTime(),
+);
+const notes = [...(await getCollection("notes"))].sort(
+  (left, right) =>
+    right.data.publishedAt.getTime() - left.data.publishedAt.getTime(),
+);
+const notesByYear = groupNotesByYear(notes);
+const noteMap = new Map(notes.map((note) => [note.id, note]));
+---
+
+<BaseLayout
+  title="Writing · Ira Fernando"
+  description="Essays and notes on observation, systems, and product discovery."
+>
+  <section class="page-intro">
+    <p class="page-kicker">Writing</p>
+    <h1>Essays and notes that stay close to the source.</h1>
+    <p class="page-deck">
+      The essays are slower and more structured. The notes hold smaller
+      observations before they get over-explained.
+    </p>
+  </section>
+
+  <section class="page-body">
+    <div class="essay-stack">
+      {
+        essays.map((essay) => (
+          <EntryCard
+            href={entryPermalink("writing", essay.id)}
+            title={essay.data.title}
+            summary={essay.data.summary}
+            meta={`${formatDisplayDate(essay.data.publishedAt)} · ${essay.data.readingTime}`}
+            variant="essay"
+          />
+        ))
+      }
+    </div>
+  </section>
+
+  <section class="page-body notes-archive">
+    {
+      notesByYear.map((group) => (
+        <div class="notes-year-group">
+          <h2>{group.year}</h2>
+          <div class="notes-list">
+            {group.entries.map((entryId) => {
+              const note = noteMap.get(entryId);
+
+              return (
+                note && (
+                  <EntryCard
+                    href={notePermalink(note.id)}
+                    title={note.data.title}
+                    summary={note.data.summary}
+                    meta={formatDisplayDate(note.data.publishedAt)}
+                    variant="note"
+                  />
+                )
+              );
+            })}
+          </div>
+        </div>
+      ))
+    }
+  </section>
+</BaseLayout>

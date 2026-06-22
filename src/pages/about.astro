@@ -1,0 +1,22 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import { aboutCopy } from "../data/site";
+---
+
+<BaseLayout title="About · Ira Fernando" description={aboutCopy.intro}>
+  <section class="page-intro">
+    <p class="page-kicker">About</p>
+    <h1>{aboutCopy.title}</h1>
+    <p class="page-deck">{aboutCopy.intro}</p>
+  </section>
+
+  <section class="page-body prose-grid">
+    <div class="prose">
+      {aboutCopy.paragraphs.map((paragraph) => <p>{paragraph}</p>)}
+    </div>
+    <aside class="contact-panel">
+      <p>Contact</p>
+      <a href={`mailto:${aboutCopy.contactValue}`}>{aboutCopy.contactValue}</a>
+    </aside>
+  </section>
+</BaseLayout>

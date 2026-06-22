@@ -1,0 +1,22 @@
+---
+title: "TradingAgents Packet Flow"
+summary: "Clarifying a research-to-decision workflow by turning analysis into a durable packet boundary."
+publishedAt: 2026-05-21
+featured: true
+role: "Product direction, workflow design, implementation"
+year: "2026"
+outcomes:
+  - "Defined a cleaner packet contract between research generation and downstream decision work."
+  - "Reduced ambiguity around ownership of artifacts and handoff surfaces."
+  - "Kept the implementation repo-specific instead of leaking reusable harness logic."
+stack:
+  - Python
+  - CLI workflows
+  - Agent orchestration
+---
+
+This work was about creating a boundary strong enough to survive automation pressure.
+
+The problem was not only technical. It was editorial. If a workflow produces insight but packages it weakly, the next stage still has to reinterpret the work. That introduces drift.
+
+The fix was to treat the packet as a first-class product surface: explicit fields, predictable outputs, and enough structure to make the next action obvious.

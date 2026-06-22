@@ -1,0 +1,141 @@
+---
+import { getCollection } from "astro:content";
+
+import EntryCard from "../components/EntryCard.astro";
+import Hero from "../components/Hero.astro";
+import SectionHeading from "../components/SectionHeading.astro";
+import BaseLayout from "../layouts/BaseLayout.astro";
+import {
+  entryPermalink,
+  formatDisplayDate,
+  notePermalink,
+  pickFeaturedEssay,
+  pickFeaturedPhotoStory,
+  pickFeaturedWork,
+} from "../utils/content";
+
+const essays = await getCollection("essays");
+const notes = await getCollection("notes");
+const photoStories = await getCollection("photo-stories");
+const work = await getCollection("work");
+
+const featuredEssay = pickFeaturedEssay(essays);
+const featuredPhotoStory = pickFeaturedPhotoStory(photoStories);
+const featuredWork = pickFeaturedWork(work);
+const latestNotes = [...notes].sort(
+  (left, right) =>
+    right.data.publishedAt.getTime() - left.data.publishedAt.getTime(),
+);
+---
+
+<BaseLayout>
+  <Hero />
+
+  <section class="home-section">
+    <SectionHeading
+      kicker="Featured writing"
+      title="Essays that stay close to evidence."
+      intro="Longer pieces about product discovery, AI systems, and what becomes visible when observation is treated as a craft."
+    />
+    {
+      featuredEssay && (
+        <EntryCard
+          href={entryPermalink("writing", featuredEssay.id)}
+          title={featuredEssay.data.title}
+          summary={featuredEssay.data.summary}
+          meta={`${formatDisplayDate(featuredEssay.data.publishedAt)} · ${featuredEssay.data.readingTime}`}
+          variant="essay"
+        />
+      )
+    }
+  </section>
+
+  <section class="home-grid">
+    <div>
+      <SectionHeading
+        kicker="Photo story"
+        title="Images with editorial weight."
+        intro="Photography is a first-class medium here, not portfolio filler."
+      />
+      {
+        featuredPhotoStory && (
+          <EntryCard
+            href={entryPermalink("photography", featuredPhotoStory.id)}
+            title={featuredPhotoStory.data.title}
+            summary={featuredPhotoStory.data.summary}
+            meta={formatDisplayDate(featuredPhotoStory.data.publishedAt)}
+            variant="photo"
+          />
+        )
+      }
+    </div>
+
+    <div>
+      <SectionHeading
+        kicker="Selected work"
+        title="Technical work with a clearer point of view."
+        intro="A small number of case studies that explain why the work mattered, not only what shipped."
+      />
+      {
+        featuredWork && (
+          <EntryCard
+            href={entryPermalink("work", featuredWork.id)}
+            title={featuredWork.data.title}
+            summary={featuredWork.data.summary}
+            meta={`${featuredWork.data.year} · ${featuredWork.data.role}`}
+            variant="work"
+          />
+        )
+      }
+    </div>
+  </section>
+
+  <section class="home-section signal-section">
+    <SectionHeading
+      kicker="Experiments and lineage"
+      title="The live site keeps both the current studio and the old evidence trail."
+      intro="The public estate is now split deliberately: new source pages come from this Astro studio, while archive and game routes remain visible static exceptions."
+    />
+    <div class="signal-grid">
+      <a class="signal-panel" href="/games/concentration/">
+        <p class="entry-meta">Experiment</p>
+        <h3>Concentration game</h3>
+        <p>
+          A Symphony build artifact: playable, inspectable, and ready for future
+          generated assets, audio, and scoring experiments.
+        </p>
+      </a>
+      <a class="signal-panel" href="/archive/">
+        <p class="entry-meta">Archive</p>
+        <h3>Legacy site strata</h3>
+        <p>
+          Older portfolio pages stay available as provenance, with stale facts
+          and retired demos marked honestly instead of erased.
+        </p>
+      </a>
+    </div>
+  </section>
+
+  <section class="home-section notes-strip">
+    <SectionHeading
+      kicker="Latest notes"
+      title="Notebook-scale observations."
+      intro="Shorter dispatches on systems, cities, fieldwork, and the habits of public thinking."
+    />
+    <div class="notes-grid">
+      {
+        latestNotes
+          .slice(0, 4)
+          .map((note) => (
+            <EntryCard
+              href={notePermalink(note.id)}
+              title={note.data.title}
+              summary={note.data.summary}
+              meta={formatDisplayDate(note.data.publishedAt)}
+              variant="note"
+            />
+          ))
+      }
+    </div>
+  </section>
+</BaseLayout>

@@ -1,0 +1,58 @@
+---
+import { type CollectionEntry, getCollection, render } from "astro:content";
+
+import BaseLayout from "../../layouts/BaseLayout.astro";
+
+export async function getStaticPaths() {
+  const entries = await getCollection("work");
+
+  return entries.map((entry) => ({
+    params: {
+      slug: entry.id.replace(/\.(md|mdx)$/, ""),
+    },
+    props: {
+      entry,
+    },
+  }));
+}
+
+type Props = {
+  entry: CollectionEntry<"work">;
+};
+
+const { entry } = Astro.props;
+const { Content } = await render(entry);
+---
+
+<BaseLayout
+  title={`${entry.data.title} · Ira Fernando`}
+  description={entry.data.summary}
+>
+  <article class="entry-page work-page">
+    <header class="entry-header">
+      <p class="page-kicker">Work</p>
+      <h1>{entry.data.title}</h1>
+      <p class="page-deck">{entry.data.summary}</p>
+      <p class="entry-stamp">{entry.data.year} · {entry.data.role}</p>
+    </header>
+
+    <div class="detail-rail">
+      <div>
+        <p>Outcomes</p>
+        <ul>
+          {entry.data.outcomes.map((item) => <li>{item}</li>)}
+        </ul>
+      </div>
+      <div>
+        <p>Stack</p>
+        <ul>
+          {entry.data.stack.map((item) => <li>{item}</li>)}
+        </ul>
+      </div>
+    </div>
+
+    <div class="prose">
+      <Content />
+    </div>
+  </article>
+</BaseLayout>

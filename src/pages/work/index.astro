@@ -1,0 +1,40 @@
+---
+import { getCollection } from "astro:content";
+
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import EntryCard from "../../components/EntryCard.astro";
+import { entryPermalink } from "../../utils/content";
+
+const entries = [...(await getCollection("work"))].sort(
+  (left, right) =>
+    right.data.publishedAt.getTime() - left.data.publishedAt.getTime(),
+);
+---
+
+<BaseLayout
+  title="Work · Ira Fernando"
+  description="A selective set of technical and product-facing case studies."
+>
+  <section class="page-intro">
+    <p class="page-kicker">Work</p>
+    <h1>Selective technical work with editorial clarity.</h1>
+    <p class="page-deck">
+      I prefer small, legible case studies that explain boundaries, decisions,
+      and impact over exhaustive archives.
+    </p>
+  </section>
+
+  <section class="page-body work-list">
+    {
+      entries.map((entry) => (
+        <EntryCard
+          href={entryPermalink("work", entry.id)}
+          title={entry.data.title}
+          summary={entry.data.summary}
+          meta={`${entry.data.year} · ${entry.data.role}`}
+          variant="work"
+        />
+      ))
+    }
+  </section>
+</BaseLayout>

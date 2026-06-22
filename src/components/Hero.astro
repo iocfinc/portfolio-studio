@@ -1,0 +1,33 @@
+---
+import { homeCopy } from "../data/site";
+---
+
+<section class="home-hero">
+  <div class="hero-copy">
+    <p class="hero-kicker">{homeCopy.eyebrow}</p>
+    <h1>{homeCopy.title}</h1>
+    <p class="hero-intro">{homeCopy.intro}</p>
+    <ul class="hero-list">
+      {homeCopy.callouts.map((item) => <li>{item}</li>)}
+    </ul>
+    <div class="hero-actions">
+      <a class="button-link primary" href={homeCopy.ctaHref}
+        >{homeCopy.ctaLabel}</a
+      >
+      <a class="button-link" href={homeCopy.secondaryCtaHref}
+        >{homeCopy.secondaryCtaLabel}</a
+      >
+    </div>
+  </div>
+  <div class="hero-media">
+    <img
+      src="/assets/photos/nyc-hero.jpg"
+      alt="A moody New York city scene with layered lights and reflections."
+      loading="eager"
+    />
+    <div class="hero-caption">
+      <p>Selected photograph</p>
+      <span>New York, Marilag</span>
+    </div>
+  </div>
+</section>

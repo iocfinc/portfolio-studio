@@ -1,0 +1,32 @@
+{
+  "name": "portfolio-studio",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": ">=20.11.0"
+  },
+  "scripts": {
+    "dev": "astro dev",
+    "build": "node -e \"require('fs').rmSync('dist',{recursive:true,force:true})\" && astro check && astro build",
+    "stage:pages": "npm run build && node scripts/stage-pages.mjs",
+    "typecheck": "astro check",
+    "test": "vitest run",
+    "lint": "prettier --check .",
+    "verify": "npm run test && npm run build && npm run lint"
+  },
+  "dependencies": {
+    "@astrojs/mdx": "^4.3.0",
+    "@fontsource/manrope": "^5.2.6",
+    "@fontsource/newsreader": "^5.2.6",
+    "astro": "^5.5.5",
+    "zod": "^3.24.2"
+  },
+  "devDependencies": {
+    "@astrojs/check": "^0.9.9",
+    "prettier": "^3.5.3",
+    "prettier-plugin-astro": "^0.14.1",
+    "typescript": "^5.8.2",
+    "vitest": "^3.1.1"
+  }
+}

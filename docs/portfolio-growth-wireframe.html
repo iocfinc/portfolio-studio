@@ -1,0 +1,1134 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>DIO-69 Portfolio Growth Wireframe</title>
+    <style>
+      :root {
+        --bg: #f6f7f6;
+        --paper: #ffffff;
+        --ink: #171c1a;
+        --muted: #66706b;
+        --line: #d8ddda;
+        --line-strong: #aeb8b2;
+        --accent: #1f6feb;
+        --accent-soft: #eaf2ff;
+        --green: #244f3d;
+        --amber: #8a5a18;
+        --rose: #8b3e46;
+        --radius: 8px;
+        color: var(--ink);
+        background: var(--bg);
+        font-family:
+          Manrope, "Helvetica Neue", Arial, system-ui, -apple-system, sans-serif;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        overflow-x: hidden;
+        width: 100%;
+      }
+
+      main {
+        max-width: 1320px;
+        margin: 0 auto;
+        overflow-x: hidden;
+        padding: 28px;
+        width: 100%;
+      }
+
+      header {
+        display: grid;
+        grid-template-columns: minmax(0, 1.2fr) minmax(280px, 0.8fr);
+        gap: 28px;
+        align-items: end;
+        border-bottom: 1px solid var(--line);
+        min-width: 0;
+        padding-bottom: 26px;
+      }
+
+      h1,
+      h2,
+      h3,
+      p {
+        max-width: 100%;
+        margin: 0;
+        overflow-wrap: anywhere;
+      }
+
+      h1 {
+        font-size: clamp(2.4rem, 5vw, 5rem);
+        line-height: 0.95;
+        letter-spacing: -0.05em;
+        max-width: 12ch;
+      }
+
+      h2 {
+        font-size: clamp(1.7rem, 2.4vw, 2.6rem);
+        line-height: 1;
+        letter-spacing: -0.04em;
+      }
+
+      h3 {
+        font-size: 1rem;
+        letter-spacing: -0.01em;
+      }
+
+      p,
+      li {
+        color: var(--muted);
+        line-height: 1.6;
+        overflow-wrap: anywhere;
+      }
+
+      .kicker,
+      .tag {
+        color: var(--muted);
+        font-size: 0.74rem;
+        font-weight: 800;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+      }
+
+      .brief {
+        border-left: 1px solid var(--line-strong);
+        min-width: 0;
+        padding-left: 18px;
+      }
+
+      .grid {
+        display: grid;
+        gap: 16px;
+        max-width: 100%;
+        min-width: 0;
+      }
+
+      .section {
+        border-top: 1px solid var(--line);
+        margin-top: 34px;
+        max-width: 100%;
+        min-width: 0;
+        overflow: hidden;
+        padding-top: 28px;
+      }
+
+      .two {
+        grid-template-columns: minmax(0, 0.95fr) minmax(0, 1.05fr);
+      }
+
+      .three {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+      }
+
+      .panel {
+        background: var(--paper);
+        border: 1px solid var(--line);
+        border-radius: var(--radius);
+        min-width: 0;
+        overflow: hidden;
+        padding: 18px;
+      }
+
+      .panel.tight {
+        padding: 14px;
+      }
+
+      .panel.accent {
+        background: var(--accent-soft);
+        border-color: #b8d2ff;
+      }
+
+      .decision-strip {
+        display: grid;
+        gap: 10px;
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+        margin-top: 18px;
+      }
+
+      .decision {
+        border-left: 3px solid var(--accent);
+        background: var(--paper);
+        padding: 14px;
+      }
+
+      .site-map {
+        display: grid;
+        gap: 12px;
+      }
+
+      .node {
+        border: 1px solid var(--line);
+        background: var(--paper);
+        border-radius: var(--radius);
+        min-width: 0;
+        padding: 14px;
+      }
+
+      .node.primary {
+        background: #17211c;
+        color: #fff;
+      }
+
+      .node.primary p {
+        color: #ccd5d0;
+      }
+
+      .map-grid {
+        display: grid;
+        gap: 12px;
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+      }
+
+      .wireframe {
+        border: 1px solid var(--line-strong);
+        background: #fbfbfa;
+        border-radius: var(--radius);
+        min-width: 0;
+        overflow: hidden;
+        padding: 14px;
+      }
+
+      .browser-bar {
+        display: flex;
+        gap: 6px;
+        border-bottom: 1px solid var(--line);
+        padding-bottom: 10px;
+        margin-bottom: 14px;
+      }
+
+      .dot {
+        width: 8px;
+        height: 8px;
+        border-radius: 999px;
+        background: var(--line-strong);
+      }
+
+      .wf-nav,
+      .wf-row {
+        display: grid;
+        gap: 10px;
+      }
+
+      .wf-nav {
+        grid-template-columns: 1.4fr repeat(5, 0.6fr);
+        margin-bottom: 18px;
+      }
+
+      .wf-row {
+        grid-template-columns: 1.1fr 0.9fr;
+      }
+
+      .box {
+        min-height: 42px;
+        border: 1px dashed var(--line-strong);
+        background: #fff;
+        min-width: 0;
+        overflow-wrap: anywhere;
+        padding: 12px;
+      }
+
+      .box.hero {
+        min-height: 230px;
+      }
+
+      .box.media {
+        min-height: 230px;
+        background:
+          linear-gradient(135deg, rgba(31, 111, 235, 0.12), transparent),
+          #fff;
+      }
+
+      .proof-stack {
+        display: grid;
+        gap: 10px;
+        margin-top: 10px;
+      }
+
+      .calendar {
+        max-width: 100%;
+        overflow-x: auto;
+      }
+
+      .gantt {
+        min-width: 980px;
+        display: grid;
+        grid-template-columns: 180px repeat(12, minmax(54px, 1fr));
+        border: 1px solid var(--line);
+        border-radius: var(--radius);
+        overflow: hidden;
+      }
+
+      .gantt > div {
+        border-right: 1px solid var(--line);
+        border-bottom: 1px solid var(--line);
+        min-height: 42px;
+        padding: 10px;
+        background: #fff;
+        font-size: 0.82rem;
+      }
+
+      .gantt .label {
+        font-weight: 800;
+        color: var(--ink);
+        background: #f0f2f1;
+      }
+
+      .bar {
+        border-radius: 999px;
+        color: #fff;
+        font-weight: 800;
+        text-align: center;
+      }
+
+      .blue {
+        background: var(--accent);
+      }
+
+      .green {
+        background: var(--green);
+      }
+
+      .amber {
+        background: var(--amber);
+      }
+
+      .rose {
+        background: var(--rose);
+      }
+
+      .content-loop {
+        display: grid;
+        grid-template-columns: repeat(7, minmax(0, 1fr));
+        gap: 10px;
+      }
+
+      .day {
+        min-height: 150px;
+      }
+
+      .agent-loop {
+        display: grid;
+        grid-template-columns: repeat(6, minmax(0, 1fr));
+        gap: 10px;
+        align-items: stretch;
+      }
+
+      .step {
+        position: relative;
+      }
+
+      .step::after {
+        content: "";
+        position: absolute;
+        top: 30px;
+        right: -10px;
+        width: 10px;
+        border-top: 1px solid var(--line-strong);
+      }
+
+      .step:last-child::after {
+        display: none;
+      }
+
+      .checks {
+        display: grid;
+        gap: 10px;
+      }
+
+      .swimlanes {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 14px;
+      }
+
+      .lane {
+        border: 1px solid var(--line);
+        background: var(--paper);
+        border-radius: var(--radius);
+        overflow: hidden;
+      }
+
+      .lane h3 {
+        background: #17211c;
+        color: #fff;
+        padding: 14px;
+      }
+
+      .lane ul {
+        display: grid;
+        gap: 10px;
+        list-style: none;
+        margin: 0;
+        padding: 14px;
+      }
+
+      .lane li {
+        border-left: 3px solid var(--accent);
+        padding-left: 10px;
+      }
+
+      .release-grid {
+        display: grid;
+        gap: 12px;
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+      }
+
+      .release {
+        min-height: 220px;
+      }
+
+      .ticket-board {
+        display: grid;
+        gap: 12px;
+        grid-template-columns: repeat(5, minmax(0, 1fr));
+      }
+
+      .ticket-column {
+        background: #eef1ef;
+        border: 1px solid var(--line);
+        border-radius: var(--radius);
+        padding: 10px;
+      }
+
+      .ticket-column h3 {
+        margin-bottom: 10px;
+      }
+
+      .ticket {
+        background: var(--paper);
+        border: 1px solid var(--line);
+        border-radius: var(--radius);
+        margin-top: 8px;
+        padding: 10px;
+      }
+
+      .artifact-grid {
+        display: grid;
+        gap: 12px;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .scorecard {
+        display: grid;
+        gap: 8px;
+      }
+
+      .score-row {
+        display: grid;
+        grid-template-columns: 140px 1fr 80px;
+        gap: 10px;
+        align-items: center;
+      }
+
+      .meter {
+        height: 8px;
+        background: #e4e8e6;
+        border-radius: 999px;
+        overflow: hidden;
+      }
+
+      .meter span {
+        display: block;
+        height: 100%;
+        background: var(--accent);
+      }
+
+      .check {
+        display: grid;
+        grid-template-columns: 20px 1fr;
+        gap: 10px;
+      }
+
+      .square {
+        width: 16px;
+        height: 16px;
+        border: 1px solid var(--line-strong);
+        margin-top: 4px;
+      }
+
+      .source-list a {
+        color: var(--accent);
+      }
+
+      @media (max-width: 900px) {
+        main {
+          max-width: 100vw;
+          padding: 18px;
+          width: 100vw;
+        }
+
+        h1 {
+          font-size: clamp(2rem, 12vw, 3rem);
+          max-width: 9ch;
+        }
+
+        h2 {
+          font-size: clamp(1.45rem, 8vw, 2rem);
+        }
+
+        header,
+        .two,
+        .three,
+        .map-grid,
+        .wf-row,
+        .decision-strip,
+        .content-loop,
+        .agent-loop,
+        .swimlanes,
+        .release-grid,
+        .ticket-board,
+        .artifact-grid,
+        .score-row {
+          grid-template-columns: 1fr;
+        }
+
+        .wf-nav {
+          grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+
+        .panel,
+        .node,
+        .wireframe,
+        .box,
+        .brief {
+          max-width: 100%;
+          width: 100%;
+        }
+
+        .decision-strip {
+          margin-top: 12px;
+        }
+
+        .step::after {
+          display: none;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <main>
+      <header>
+        <div>
+          <p class="kicker">DIO-69 CEO review board</p>
+          <h1>Portfolio as an AI transformation proof system.</h1>
+        </div>
+        <div class="brief">
+          <p>
+            The next portfolio should make one claim repeatedly: Ira can turn
+            ambiguity into working AI systems, evidence-backed decisions,
+            public-safe writing, and credible customer-facing explanation.
+          </p>
+        </div>
+      </header>
+
+      <section class="section">
+        <div class="grid two">
+          <div class="panel accent">
+            <p class="kicker">North star</p>
+            <h2>Observation as craft, evidence as product.</h2>
+            <p>
+              This stays the brand spine, but the product strategy gets sharper:
+              every page should answer whether a field-engineering, AI
+              consulting, or product leadership audience can trust the thinking.
+            </p>
+          </div>
+          <div class="panel">
+            <p class="kicker">Audience priority</p>
+            <div class="decision-strip">
+              <div class="decision">
+                <h3>AI FDE</h3>
+                <p>Can Ira discover, demo, architect, and unblock adoption?</p>
+              </div>
+              <div class="decision">
+                <h3>AI engineer</h3>
+                <p>Can Ira ship, evaluate, and document working systems?</p>
+              </div>
+              <div class="decision">
+                <h3>Transformation lead</h3>
+                <p>Can Ira connect tech decisions to operating change?</p>
+              </div>
+              <div class="decision">
+                <h3>Community signal</h3>
+                <p>Can Ira observe and contribute to the local builder scene?</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section">
+        <p class="kicker">Proposed site map</p>
+        <div class="site-map">
+          <div class="node primary">
+            <h2>/ Home</h2>
+            <p>
+              Positioning, current proof, latest writing, flagship demo, event
+              photography, and work-with-me path.
+            </p>
+          </div>
+          <div class="map-grid">
+            <div class="node">
+              <h3>/work</h3>
+              <p>Case studies: problem, architecture, tradeoffs, proof.</p>
+            </div>
+            <div class="node">
+              <h3>/playbooks</h3>
+              <p>FDE artifacts: workshops, scorecards, eval checklists.</p>
+            </div>
+            <div class="node">
+              <h3>/writing</h3>
+              <p>Public-safe field notes, technical essays, build logs.</p>
+            </div>
+            <div class="node">
+              <h3>/photography</h3>
+              <p>Event galleries and visual essays from builder communities.</p>
+            </div>
+            <div class="node">
+              <h3>/experiments</h3>
+              <p>Runnable demos, prototypes, and agent-supported product bets.</p>
+            </div>
+            <div class="node">
+              <h3>/now</h3>
+              <p>Current learning agenda, shipped this month, next focus.</p>
+            </div>
+            <div class="node">
+              <h3>/services</h3>
+              <p>Consulting shapes: AI audit, demo sprint, workshop, advisory.</p>
+            </div>
+            <div class="node">
+              <h3>/archive</h3>
+              <p>Legacy provenance with stale claims clearly retired.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section">
+        <p class="kicker">Homepage wireframe</p>
+        <div class="grid two">
+          <div class="wireframe">
+            <div class="browser-bar">
+              <span class="dot"></span><span class="dot"></span
+              ><span class="dot"></span>
+            </div>
+            <div class="wf-nav">
+              <div class="box">Ira Fernando</div>
+              <div class="box">Work</div>
+              <div class="box">Playbooks</div>
+              <div class="box">Writing</div>
+              <div class="box">Photo</div>
+              <div class="box">Now</div>
+            </div>
+            <div class="wf-row">
+              <div class="box hero">
+                <p class="tag">Hero claim</p>
+                <h2>AI systems, field notes, and proof.</h2>
+                <p>
+                  One tight paragraph: I help teams translate AI ambiguity into
+                  demos, evaluation loops, and operating decisions.
+                </p>
+                <div class="proof-stack">
+                  <div class="box">Primary CTA: View AI proof kit</div>
+                  <div class="box">Secondary CTA: Read field notes</div>
+                </div>
+              </div>
+              <div class="box media">
+                <p class="tag">Proof rail</p>
+                <p>Current project, latest article, latest event gallery.</p>
+              </div>
+            </div>
+          </div>
+          <div class="panel">
+            <h2>Homepage job</h2>
+            <p>
+              The homepage should stop acting like a polite index. It should be
+              a proof router: direct different readers to the artifact that best
+              answers their trust question.
+            </p>
+            <div class="decision-strip">
+              <div class="decision">
+                <h3>Hiring reader</h3>
+                <p>Show systems, code, architecture, communication.</p>
+              </div>
+              <div class="decision">
+                <h3>Consulting reader</h3>
+                <p>Show problems you can diagnose and de-risk.</p>
+              </div>
+              <div class="decision">
+                <h3>Community reader</h3>
+                <p>Show events, photos, talks, public thinking.</p>
+              </div>
+              <div class="decision">
+                <h3>Future agent</h3>
+                <p>Show exactly what page type to improve next.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section">
+        <p class="kicker">Case study wireframe</p>
+        <div class="grid three">
+          <div class="panel">
+            <h3>1. Situation</h3>
+            <p>What was ambiguous, expensive, broken, or misunderstood?</p>
+          </div>
+          <div class="panel">
+            <h3>2. Architecture</h3>
+            <p>Diagram, constraints, options rejected, chosen path.</p>
+          </div>
+          <div class="panel">
+            <h3>3. Proof</h3>
+            <p>Demo, screenshots, repo, tests, metrics, review notes.</p>
+          </div>
+          <div class="panel">
+            <h3>4. Field narrative</h3>
+            <p>How would you explain this to a buyer, team, or stakeholder?</p>
+          </div>
+          <div class="panel">
+            <h3>5. Failure review</h3>
+            <p>What failed, what changed your mind, what remains risky?</p>
+          </div>
+          <div class="panel">
+            <h3>6. Reusable artifact</h3>
+            <p>Checklist, playbook, prompt, workflow, template, or ADR.</p>
+          </div>
+        </div>
+      </section>
+
+      <section class="section">
+        <p class="kicker">12-week strategy calendar</p>
+        <div class="calendar">
+          <div class="gantt">
+            <div class="label">Track</div>
+            <div class="label">W1</div>
+            <div class="label">W2</div>
+            <div class="label">W3</div>
+            <div class="label">W4</div>
+            <div class="label">W5</div>
+            <div class="label">W6</div>
+            <div class="label">W7</div>
+            <div class="label">W8</div>
+            <div class="label">W9</div>
+            <div class="label">W10</div>
+            <div class="label">W11</div>
+            <div class="label">W12</div>
+
+            <div class="label">Credibility cleanup</div>
+            <div class="bar blue" style="grid-column: span 3">audit</div>
+            <div class="bar blue">fix</div>
+            <div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div>
+
+            <div class="label">Positioning spine</div>
+            <div class="bar green" style="grid-column: span 2">copy</div>
+            <div class="bar green" style="grid-column: span 2">home</div>
+            <div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div>
+
+            <div class="label">Proof kit</div>
+            <div></div>
+            <div class="bar amber" style="grid-column: span 3">case study 1</div>
+            <div class="bar amber" style="grid-column: span 3">playbook 1</div>
+            <div class="bar amber" style="grid-column: span 3">demo 1</div>
+            <div></div><div></div>
+
+            <div class="label">Writing engine</div>
+            <div class="bar rose">note</div>
+            <div class="bar rose">note</div>
+            <div class="bar rose">essay</div>
+            <div class="bar rose">note</div>
+            <div class="bar rose">note</div>
+            <div class="bar rose">essay</div>
+            <div class="bar rose">note</div>
+            <div class="bar rose">note</div>
+            <div class="bar rose">essay</div>
+            <div class="bar rose">note</div>
+            <div class="bar rose">note</div>
+            <div class="bar rose">quarterly</div>
+
+            <div class="label">Photography/events</div>
+            <div></div><div></div>
+            <div class="bar green" style="grid-column: span 2">Codex meetup</div>
+            <div></div>
+            <div class="bar green" style="grid-column: span 2">gallery model</div>
+            <div></div><div></div>
+            <div class="bar green" style="grid-column: span 2">next event</div>
+            <div></div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section">
+        <p class="kicker">Release strategy by campaign</p>
+        <div class="release-grid">
+          <div class="panel release">
+            <p class="tag">Release 0 · Now</p>
+            <h3>Credibility reset</h3>
+            <p>
+              Remove false promises: retired demos, dead links, stale claims,
+              old contact behavior, outdated Udacity/Heroku surfaces.
+            </p>
+            <p><strong>Ship signal:</strong> site becomes honest.</p>
+          </div>
+          <div class="panel release">
+            <p class="tag">Release 1 · 30 days</p>
+            <h3>AI proof kit</h3>
+            <p>
+              One flagship AI systems case study, one playbook, one demo page,
+              one architecture diagram, one public-safe field note.
+            </p>
+            <p><strong>Ship signal:</strong> readers see proof in 90 seconds.</p>
+          </div>
+          <div class="panel release">
+            <p class="tag">Release 2 · 60 days</p>
+            <h3>Field engineering surface</h3>
+            <p>
+              Discovery workshop, AI readiness scorecard, RAG/eval checklist,
+              stakeholder narrative, and demo-to-POC handoff template.
+            </p>
+            <p><strong>Ship signal:</strong> consultative trust.</p>
+          </div>
+          <div class="panel release">
+            <p class="tag">Release 3 · 90 days</p>
+            <h3>Public cadence engine</h3>
+            <p>
+              Monthly flagship writing, weekly notes, event galleries, social
+              derivatives, and quarterly recap that proves compounding judgment.
+            </p>
+            <p><strong>Ship signal:</strong> visible momentum.</p>
+          </div>
+        </div>
+      </section>
+
+      <section class="section">
+        <p class="kicker">Weekly communications loop</p>
+        <div class="content-loop">
+          <div class="panel day">
+            <h3>Mon</h3>
+            <p>Capture: work log, source links, private reflections.</p>
+          </div>
+          <div class="panel day">
+            <h3>Tue</h3>
+            <p>Shape: choose one public-safe lesson and one audience.</p>
+          </div>
+          <div class="panel day">
+            <h3>Wed</h3>
+            <p>Draft: note, diagram, or build-log spine.</p>
+          </div>
+          <div class="panel day">
+            <h3>Thu</h3>
+            <p>Review: confidentiality, taste, clarity, evidence.</p>
+          </div>
+          <div class="panel day">
+            <h3>Fri</h3>
+            <p>Publish: site note plus LinkedIn/social derivative.</p>
+          </div>
+          <div class="panel day">
+            <h3>Sat</h3>
+            <p>Gallery or demo polish when an event/project exists.</p>
+          </div>
+          <div class="panel day">
+            <h3>Sun</h3>
+            <p>Backlog: decide next article, demo, or proof gap.</p>
+          </div>
+        </div>
+      </section>
+
+      <section class="section">
+        <p class="kicker">Recurring threads and demos</p>
+        <div class="grid three">
+          <div class="panel">
+            <h3>AI Adoption Field Notes</h3>
+            <p>
+              Public-safe lessons about discovery, risk, evaluation, and how
+              teams actually adopt AI systems.
+            </p>
+          </div>
+          <div class="panel">
+            <h3>Reviewable AI Systems</h3>
+            <p>
+              Demos and articles about evidence trails, evals, observability,
+              prompt/version control, and human review.
+            </p>
+          </div>
+          <div class="panel">
+            <h3>Agentic Solo Studio</h3>
+            <p>
+              Symphony/Codex workflow, agent launch briefs, recovery loops, and
+              what good looks like for long-running work.
+            </p>
+          </div>
+          <div class="panel">
+            <h3>Data and Decision Systems</h3>
+            <p>
+              Databricks/FDE-aligned architecture thinking: lakehouse, RAG,
+              structured data, dashboards, and decision workflows.
+            </p>
+          </div>
+          <div class="panel">
+            <h3>Singapore Builder Scenes</h3>
+            <p>
+              Event photography plus short reports from meetups, talks, demos,
+              and community patterns.
+            </p>
+          </div>
+          <div class="panel">
+            <h3>Learning in Public</h3>
+            <p>
+              Training reflections, sanitized workplace lessons, failed demos,
+              and taste reviews.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <section class="section">
+        <p class="kicker">Proof artifact library</p>
+        <div class="artifact-grid">
+          <div class="panel">
+            <h3>AI systems case study</h3>
+            <p>
+              Page shape: user problem, business context, architecture diagram,
+              implementation notes, eval strategy, screenshots, tests, decision
+              log, failure modes, and next iteration.
+            </p>
+          </div>
+          <div class="panel">
+            <h3>Field engineering playbook</h3>
+            <p>
+              Page shape: when to use, discovery questions, stakeholder map,
+              demo script, technical objections, validation checklist, and
+              follow-up email/frame.
+            </p>
+          </div>
+          <div class="panel">
+            <h3>Event photography report</h3>
+            <p>
+              Page shape: gallery, event context, what builders cared about,
+              technical themes, community signal, and personal reflection.
+            </p>
+          </div>
+          <div class="panel">
+            <h3>Agentic build log</h3>
+            <p>
+              Page shape: intent, packet, agents launched, failures, recovery,
+              final proof, screenshots, commands, and what changed the workflow.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <section class="section">
+        <p class="kicker">Agent operating model</p>
+        <div class="agent-loop">
+          <div class="panel step">
+            <h3>CEO intent</h3>
+            <p>What outcome matters, who it serves, what is off-limits.</p>
+          </div>
+          <div class="panel step">
+            <h3>Packet</h3>
+            <p>PRD, ADR, BDD, WTF, source log, success criteria.</p>
+          </div>
+          <div class="panel step">
+            <h3>Task map</h3>
+            <p>Stories, agent-sized tasks, dependencies, validation gates.</p>
+          </div>
+          <div class="panel step">
+            <h3>Agent fleet</h3>
+            <p>Research, design, code, QA, writing, and release notes.</p>
+          </div>
+          <div class="panel step">
+            <h3>Evidence</h3>
+            <p>Screenshots, commands, failing cases, review feedback.</p>
+          </div>
+          <div class="panel step">
+            <h3>Ship or loop</h3>
+            <p>Publish, promote to Linear, or rerun with sharper gates.</p>
+          </div>
+        </div>
+      </section>
+
+      <section class="section">
+        <p class="kicker">Foreground versus background</p>
+        <div class="swimlanes">
+          <div class="lane">
+            <h3>Foreground: CEO / Chief Architect decisions</h3>
+            <ul>
+              <li>Approve positioning, sitemap, services stance, and tone.</li>
+              <li>Approve public-safe boundaries for workplace-adjacent writing.</li>
+              <li>Pick flagship proof pieces and reject weak narratives.</li>
+              <li>Review visual direction before agents implement broad changes.</li>
+              <li>Decide when a draft becomes public versus stays private.</li>
+            </ul>
+          </div>
+          <div class="lane">
+            <h3>Background: agent-owned execution</h3>
+            <ul>
+              <li>Audit links, routes, stale claims, screenshots, and mobile states.</li>
+              <li>Draft PRD/ADR/BDD/WTF packets from approved strategy.</li>
+              <li>Generate page skeletons, content calendars, and Linear seeds.</li>
+              <li>Run route smoke, link checks, visual checks, and build commands.</li>
+              <li>Loop on failures until blocked by an explicit decision boundary.</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <section class="section">
+        <p class="kicker">Agent readiness scorecard</p>
+        <div class="panel">
+          <div class="scorecard">
+            <div class="score-row">
+              <h3>Intent clarity</h3>
+              <div class="meter"><span style="width: 70%"></span></div>
+              <p>Needs CEO approval</p>
+            </div>
+            <div class="score-row">
+              <h3>Proof inventory</h3>
+              <div class="meter"><span style="width: 35%"></span></div>
+              <p>Weak</p>
+            </div>
+            <div class="score-row">
+              <h3>Content cadence</h3>
+              <div class="meter"><span style="width: 25%"></span></div>
+              <p>Not wired</p>
+            </div>
+            <div class="score-row">
+              <h3>Audit hygiene</h3>
+              <div class="meter"><span style="width: 50%"></span></div>
+              <p>Partial</p>
+            </div>
+            <div class="score-row">
+              <h3>Agent gates</h3>
+              <div class="meter"><span style="width: 60%"></span></div>
+              <p>Emerging</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section">
+        <p class="kicker">First DIO ticket board</p>
+        <div class="ticket-board">
+          <div class="ticket-column">
+            <h3>CEO Review</h3>
+            <div class="ticket">
+              <p class="tag">DIO-69A</p>
+              <p>Approve sitemap, campaign calendar, and foreground/background contract.</p>
+            </div>
+          </div>
+          <div class="ticket-column">
+            <h3>Ready</h3>
+            <div class="ticket">
+              <p class="tag">DIO-69B</p>
+              <p>Proof audit: stale links, old claims, retired demos, contact behavior.</p>
+            </div>
+            <div class="ticket">
+              <p class="tag">DIO-69C</p>
+              <p>Homepage proof router and positioning spine.</p>
+            </div>
+          </div>
+          <div class="ticket-column">
+            <h3>Needs Packet</h3>
+            <div class="ticket">
+              <p class="tag">DIO-69D</p>
+              <p>Playbooks section PRD/ADR and first AI readiness scorecard.</p>
+            </div>
+            <div class="ticket">
+              <p class="tag">DIO-69E</p>
+              <p>Codex meetup gallery and event-report content model.</p>
+            </div>
+          </div>
+          <div class="ticket-column">
+            <h3>Research Lane</h3>
+            <div class="ticket">
+              <p class="tag">DIO-69F</p>
+              <p>AI FDE portfolio examples, Databricks/OpenAI role signals, service positioning.</p>
+            </div>
+          </div>
+          <div class="ticket-column">
+            <h3>Later</h3>
+            <div class="ticket">
+              <p class="tag">DIO-69G</p>
+              <p>Agent fleet orchestration workflow after CodexSkills packet is approved.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section">
+        <div class="grid two">
+          <div class="panel">
+            <p class="kicker">Non-negotiables</p>
+            <div class="checks">
+              <div class="check">
+                <span class="square"></span>
+                <p>No confidential employer/customer details in public writing.</p>
+              </div>
+              <div class="check">
+                <span class="square"></span>
+                <p>Every case study includes proof, not only prose.</p>
+              </div>
+              <div class="check">
+                <span class="square"></span>
+                <p>Every demo has live state: works, retired, or clearly archived.</p>
+              </div>
+              <div class="check">
+                <span class="square"></span>
+                <p>Mobile route checks are part of acceptance.</p>
+              </div>
+              <div class="check">
+                <span class="square"></span>
+                <p>Reusable agent harness logic stays in CodexSkills.</p>
+              </div>
+              <div class="check">
+                <span class="square"></span>
+                <p>Photography supports the brand thesis, not a disconnected tab.</p>
+              </div>
+            </div>
+          </div>
+          <div class="panel source-list">
+            <p class="kicker">Source notes</p>
+            <p>
+              External role signals came from Databricks and OpenAI role pages:
+              field engineers are expected to create reference architectures,
+              demos, workshops, POCs, AI application guidance, and customer value
+              narratives.
+            </p>
+            <p>
+              Public search did not verify a specific Vincent/OpenFlow article.
+              Adjacent evidence exists around tmux-backed agent sessions,
+              heartbeat loops, and OpenClaw/OpenFlow-style dashboards; treat
+              that as inspiration, not a cited standard.
+            </p>
+            <p>
+              Links to review:
+              <a href="https://www.databricks.com/company/careers/field-engineering/solutions-architect-5898477002">Databricks SA</a>,
+              <a href="https://www.databricks.com/company/careers/field-engineering---fe-direct-regulated/specialist-solutions-architect---ai-ml-8544533002">Databricks AI/ML SSA</a>,
+              <a href="https://openai.com/careers/solutions-engineer-financial-services-san-francisco/">OpenAI Solutions Engineer</a>.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <section class="section">
+        <div class="panel accent">
+          <p class="kicker">Approval question</p>
+          <h2>Do we approve this as the background test?</h2>
+          <p>
+            If yes, the next implementation slice should be: source-backed
+            DIO-69 packet, proof audit, homepage positioning update, and a
+            repo-local content calendar. If no, the main decisions to amend are
+            sitemap shape, audience priority, publishing cadence, and how public
+            the consulting/services surface should be.
+          </p>
+        </div>
+      </section>
+    </main>
+  </body>
+</html>

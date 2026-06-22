@@ -1,0 +1,193 @@
+---
+title: "How We Used Symphony to Set Up a Concentration Game"
+summary: "A small memory-card game became a practical test of planning packets, Linear gates, agent workspaces, recovery loops, and public writeups."
+publishedAt: 2026-06-17
+featured: true
+readingTime: "9 min read"
+deck: "What a tiny game revealed about managing AI coders as a solo developer."
+heroImage: "/assets/symphony-concentration/concentration-game-desktop.png"
+heroImageAlt: "Desktop screenshot of the Concentration memory-card game with the status panel and face-down card board."
+tags:
+  - AI systems
+  - Symphony
+  - Development workflow
+  - Case study
+  - assisted-by-gen-ai
+---
+
+The game was not the point.
+
+That is the useful thing about building a small game. If the rules are obvious, the workflow has nowhere to hide. A player sees face-down cards. They reveal two. Matching pairs stay open. Non-matches flip back. The timer starts on the first reveal. The board ends when every pair is found.
+
+The work was really a test of a development operating loop: can a rough idea move from planning packet to Linear story, from Linear story to an agent workspace, from agent output to validation evidence, and from validation evidence to a public explanation?
+
+That is what Symphony is for.
+
+## The pipeline starts before the coding prompt
+
+The first decision was to keep the product idea small and the planning surface explicit.
+
+The planning packet lived in CodexSkills, not in the product repo. That mattered because the packet was not only for this game. It was a reusable way to capture product intent, technical decisions, acceptance criteria, failure modes, and launch instructions before asking an agent to write code.
+
+For this demo, the packet covered the classic memory-card game, usually called **Concentration**:
+
+- cards start face down;
+- the player can reveal at most two cards;
+- matching pairs remain revealed;
+- non-matching pairs flip back after a short delay;
+- input locks while the mismatch resolves;
+- moves count completed two-card attempts;
+- the timer starts on the first reveal and stops on win;
+- restart resets the board, timer, moves, lockout state, and win state.
+
+Those rules became the product contract. They were simple enough to test, but strict enough to catch drift.
+
+## Linear became the queue, not the plan
+
+Linear stayed useful because it did not have to carry the whole brain of the project.
+
+The Story said what uncertainty we were resolving: can Symphony take a fresh product idea from planning packet to agent-ready implementation? The Tasks then split that into preparation and implementation. That gave Symphony something concrete to pull without turning the tracker into a dumping ground for half-formed context.
+
+The queue was filtered by labels. The Symphony config required both `symphony` and `agent-ready`, which kept the runner from grabbing every open issue in the project.
+
+```toml
+[tracker]
+kind = "linear"
+project_slug = "fa7460d6223b"
+active_states = ["Backlog", "Todo", "In Progress"]
+terminal_states = ["Closed", "Cancelled", "Canceled", "Duplicate", "Done"]
+required_labels = ["symphony", "agent-ready"]
+
+[workspace]
+root = "../../memory-card-game-demo/.symphony-workspaces"
+
+[workflow]
+file = "../workflows/memory-card-game.md"
+```
+
+That is the part I care about most as a solo developer managing AI coders: the agent should not be selecting from my entire ambition backlog. It should be selecting from a narrow, approved lane.
+
+## Symphony prepared a workspace with instructions attached
+
+The workflow file did the work that a good lead engineer would normally do before handing a ticket to someone else.
+
+It named the repo boundary. It pointed to the planning packet. It said the first slice should stay frontend-only. It listed the game rules. It named the validation commands.
+
+```md
+The playable demo must implement the classic Concentration memory-card matching rules:
+
+1. Cards start face down.
+2. A player can reveal at most two cards at a time.
+3. Matching pairs remain revealed.
+4. Non-matching pairs flip back after a short delay.
+5. Input is locked while a mismatch resolves.
+6. Moves count completed two-card attempts.
+7. Timer starts on first reveal and stops on win.
+8. Restart resets board, timer, moves, lockout state, and win state.
+```
+
+That instruction set is boring in the best way. It does not ask the agent to be inspired. It asks the agent to satisfy a contract.
+
+## The demo proved the visible product path
+
+The finished app is a React and Vite implementation of Concentration. The board renders face-down tiles, tracks moves and matched pairs, starts the timer on the first reveal, locks input while a mismatch resets, and shows a win state when the board clears.
+
+![Desktop screenshot of the Concentration game showing the status panel, counters, restart button, and a face-down board.](/assets/symphony-concentration/concentration-game-desktop.png)
+
+The logic is intentionally plain. The deck builder creates pairs, gives each card a pair key, and shuffles the result.
+
+```js
+export function buildDeck(symbols = DEFAULT_SYMBOLS, shuffle = shuffleCards) {
+  const pairedCards = symbols.flatMap((symbol, pairIndex) => [
+    {
+      id: `${symbol}-${pairIndex}-a`,
+      pairKey: `${symbol}-${pairIndex}`,
+      symbol,
+    },
+    {
+      id: `${symbol}-${pairIndex}-b`,
+      pairKey: `${symbol}-${pairIndex}`,
+      symbol,
+    },
+  ]);
+
+  return shuffle(pairedCards);
+}
+```
+
+The app state follows the rules directly: selected cards, matched cards, move count, elapsed seconds, started state, locked state, and win state. That is the level of implementation I wanted for the first pass. No backend. No accounts. No leaderboard. No monetization. Just the state machine.
+
+The mobile view also mattered. A demo that only works on the development monitor is not a demo yet.
+
+![Mobile screenshot of the Concentration game showing the responsive status panel and the first row of cards.](/assets/symphony-concentration/concentration-game-mobile.png)
+
+## The recovery loop mattered as much as the happy path
+
+The run was not perfectly smooth.
+
+The Symphony wrapper launched the Codex worker and created a usable scaffold, but the wrapper later became too silent. I interrupted it. That could have been written up as a failure, but it was more useful as an operating lesson.
+
+The recovery path was:
+
+1. inspect the generated workspace;
+2. run the app tests, build, and lint;
+3. fix the test isolation and fake-timer issues;
+4. correct the hidden win-banner accessibility issue;
+5. exclude `.symphony-workspaces` from root test discovery;
+6. promote the validated app from the Symphony workspace into the demo repo root;
+7. update Linear with the exact validation evidence.
+
+That is the real shape of agent work right now. The system can create leverage, but the lead agent still needs to inspect, recover, validate, and communicate.
+
+For a single developer, that is still valuable. The goal is not to disappear from the process. The goal is to stop carrying every step in working memory.
+
+## Validation made the handoff real
+
+The final root app passed:
+
+- `npm ci`
+- `npm test`
+- `npm run build`
+- `npm run lint`
+- local browser smoke check at `http://127.0.0.1:5174/`
+
+That evidence went back into Linear. The implementation task was marked Done only after the app was runnable from the root repo, not only inside the generated workspace.
+
+This is the part I want to repeat across other products: the tracker should not merely say that an agent worked. It should record what changed, where the artifact lives, which commands passed, what blocked or stalled, and what a human should review next.
+
+## What this changes for development
+
+Symphony gives me a way to manage AI coders without pretending I have an engineering team.
+
+The useful loop is:
+
+1. riff into a planning packet;
+2. turn the packet into resolving Stories and agent-sized Tasks;
+3. promote approved work into Linear;
+4. let Symphony find only approved candidates;
+5. create isolated workspaces;
+6. run Codex against a narrow workflow brief;
+7. validate the result;
+8. write the communication trail while the evidence is fresh.
+
+That last step matters more than it looks. A single developer does not only need code. They need memory. They need a record of why the product exists, what was tried, where it broke, and what should happen next.
+
+## The next version should become multimodal
+
+The Concentration game is a good first slice because it has an obvious extension path.
+
+One path is visual. Codex plus image generation can produce a card-art system, but only if the image work has taste controls. The useful version is not "make cute cards." It is a creative-direction packet: style family, palette, prompt recipes, evaluator rubric, contact sheet, and a review pass that catches generic or incoherent outputs before they ship.
+
+Another path is audio. ElevenLabs or a similar voice workflow could turn card reveals, matches, encouragement, and difficulty modes into an audio library. That would make the game more multimodal for kids, adults, and anyone who benefits from sound cues. The important constraint is restraint: audio should support play, not bury it.
+
+A third path is sharing. Best scores, streaks, challenge links, family boards, and lightweight gamification could make the game more repeatable. That would need a new product packet because persistence changes the risk profile. Once scores can be saved or shared, the project is no longer just a local frontend demo.
+
+## The article is part of the system
+
+This writeup is not separate from the development process. It is another artifact in the loop.
+
+The same evidence that closed the Linear issue also made the article easier to write: screenshots, config, game rules, validation commands, and recovery notes. The same article can feed the next planning packet: generated visuals, audio design, sharing mechanics, and a better Symphony runbook.
+
+That is the operating model I want more of.
+
+Not a perfect automation story. A visible development journey: idea, packet, issue, agent, recovery, proof, writing, next bet.

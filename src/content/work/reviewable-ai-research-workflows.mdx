@@ -1,0 +1,96 @@
+---
+title: "Reviewable AI Research Workflows"
+summary: "Building an AI-assisted research desk where the artifact, quality gate, and human-review boundary are the product."
+publishedAt: 2026-05-27
+featured: true
+role: "Applied AI workflow design, evaluation, implementation"
+year: "2026"
+outcomes:
+  - "Built a Python-first research workflow that produces CSV, JSON, HTML, and PDF artifacts for human review."
+  - "Kept the product boundary explicit: research packets and reviewable memos, not automated execution signals."
+  - "Used fixture-backed tests and report contracts to make generated outputs inspectable."
+stack:
+  - Python
+  - CLI workflows
+  - Agentic research
+  - Evaluation rubrics
+  - Report generation
+---
+
+The product decision was to resist the easiest AI shape.
+
+A market-research assistant can look impressive if it jumps straight to recommendations. That is also the failure mode. The output may be plausible, confident, and difficult to audit. For this project, the useful product surface is not a black-box answer. It is the research packet: a generated artifact with enough structure, evidence, and boundaries for a human to inspect it.
+
+## The Problem
+
+Options research can become a chain of ad hoc decisions: pull a chain, scan liquidity, check pricing, reason about scenarios, write a thesis, and decide what deserves review. AI can accelerate that workflow, but only if the output remains legible.
+
+The risky failure was not just a broken script. It was a plausible-looking memo that skipped a caveat, mixed up a filter, or made the next action sound more certain than the evidence allowed.
+
+## The Product Boundary
+
+Quant Researcher Desk is designed as a research workflow, not an execution engine.
+
+The system can:
+
+- ingest options-chain and market data through local workflows;
+- rank and filter contracts for review;
+- generate machine-readable CSV and JSON outputs;
+- render human-readable HTML and PDF reports;
+- preserve a review path for the person making the decision.
+
+The system should not:
+
+- place trades;
+- present generated analysis as an instruction;
+- hide live dependency failures;
+- make unreviewed recommendations feel final.
+
+That boundary is the point. In an AI workflow, the trust surface often lives between the generated artifact and the human decision.
+
+## The Workflow
+
+The working path is intentionally split by audience.
+
+CSV and JSON outputs support repeatable machine workflows. HTML and PDF outputs support human review. Fixture-backed runs make the workflow testable without relying on live providers first. Live mode can be added only after the local artifact path is understood.
+
+The useful shape is:
+
+```text
+market data -> ranking and filters -> scenario analysis -> report artifacts -> human review
+```
+
+The generated report is not a final answer. It is a structured memo that makes the next review easier.
+
+## Evaluation Surfaces
+
+The evaluation work focuses on whether the output can be trusted enough to review.
+
+| Surface               | What it checks                                                                                |
+| --------------------- | --------------------------------------------------------------------------------------------- |
+| Fixture mode          | Can the workflow run without live dependencies?                                               |
+| Artifact contract     | Are CSV, JSON, HTML, and PDF outputs produced where expected?                                 |
+| Ranking and filtering | Are liquidity, volume, open interest, premium, and delta filters applied in a reviewable way? |
+| Report sections       | Are the required explanation, ranking, scenario, and safety sections present?                 |
+| Failure semantics     | Does live-mode failure expose the real blocker instead of pretending success?                 |
+| Human-review boundary | Is the output framed as research support rather than an execution signal?                     |
+
+Local inspection found 31 test files under `naval-analyst/tests` and 64 report/data artifacts under `naval-analyst/reports` matching CSV, JSON, HTML, or PDF. Those are local artifact metrics, not production adoption metrics.
+
+## What This Proves
+
+This project is useful evidence for applied AI and AI product roles because it shows the product work around the model-shaped part of the system.
+
+The key decisions were product decisions:
+
+- make outputs reviewable before making them persuasive;
+- separate research support from automated action;
+- test the artifact contract, not only the code path;
+- expose operational uncertainty clearly;
+- treat evaluation as part of the product surface.
+
+The strongest lesson is simple: for many AI workflows, the product is not the answer. The product is the boundary that helps a person decide whether the answer deserves trust.
+
+## Current Limits
+
+This is not production-scale deployment evidence. It does not prove enterprise adoption, revenue impact, or fully automated safety evaluation. The current proof is narrower and more concrete: a local applied-AI workflow with reviewable artifacts, explicit boundaries, and evaluation surfaces that can be discussed, tested, and improved.

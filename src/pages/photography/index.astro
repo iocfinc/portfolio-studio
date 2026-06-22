@@ -1,0 +1,40 @@
+---
+import { getCollection } from "astro:content";
+
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import EntryCard from "../../components/EntryCard.astro";
+import { entryPermalink, formatDisplayDate } from "../../utils/content";
+
+const stories = [...(await getCollection("photo-stories"))].sort(
+  (left, right) =>
+    right.data.publishedAt.getTime() - left.data.publishedAt.getTime(),
+);
+---
+
+<BaseLayout
+  title="Photography · Ira Fernando"
+  description="Photo stories built around place, movement, and editorial observation."
+>
+  <section class="page-intro">
+    <p class="page-kicker">Photography</p>
+    <h1>Image-led stories about movement, place, and density.</h1>
+    <p class="page-deck">
+      These sequences are less about isolated hero shots than about attention,
+      pacing, and what cities reveal when the frame stays patient.
+    </p>
+  </section>
+
+  <section class="page-body photo-list">
+    {
+      stories.map((story) => (
+        <EntryCard
+          href={entryPermalink("photography", story.id)}
+          title={story.data.title}
+          summary={story.data.summary}
+          meta={formatDisplayDate(story.data.publishedAt)}
+          variant="photo"
+        />
+      ))
+    }
+  </section>
+</BaseLayout>

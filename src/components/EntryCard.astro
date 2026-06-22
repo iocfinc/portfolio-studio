@@ -1,0 +1,17 @@
+---
+type Props = {
+  href: string;
+  title: string;
+  summary: string;
+  meta: string;
+  variant?: "essay" | "photo" | "work" | "note";
+};
+
+const { href, title, summary, meta, variant = "essay" } = Astro.props;
+---
+
+<a class={`entry-card ${variant}`} href={href}>
+  <p class="entry-meta">{meta}</p>
+  <h3>{title}</h3>
+  <p>{summary}</p>
+</a>

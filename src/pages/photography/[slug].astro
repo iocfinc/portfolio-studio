@@ -1,0 +1,55 @@
+---
+import { type CollectionEntry, getCollection, render } from "astro:content";
+
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import { formatDisplayDate } from "../../utils/content";
+
+export async function getStaticPaths() {
+  const stories = await getCollection("photo-stories");
+
+  return stories.map((story) => ({
+    params: {
+      slug: story.id.replace(/\.(md|mdx)$/, ""),
+    },
+    props: {
+      story,
+    },
+  }));
+}
+
+type Props = {
+  story: CollectionEntry<"photo-stories">;
+};
+
+const { story } = Astro.props;
+const { Content } = await render(story);
+---
+
+<BaseLayout
+  title={`${story.data.title} · Ira Fernando`}
+  description={story.data.summary}
+>
+  <article class="entry-page">
+    <header class="entry-header">
+      <p class="page-kicker">Photo story</p>
+      <h1>{story.data.title}</h1>
+      <p class="page-deck">{story.data.deck}</p>
+      <p class="entry-stamp">{formatDisplayDate(story.data.publishedAt)}</p>
+    </header>
+
+    <div class="prose">
+      <Content />
+    </div>
+
+    <section class="gallery-grid" aria-label={`${story.data.title} gallery`}>
+      {
+        story.data.images.map((image) => (
+          <figure>
+            <img src={image.src} alt={image.alt} loading="lazy" />
+            {image.caption && <figcaption>{image.caption}</figcaption>}
+          </figure>
+        ))
+      }
+    </section>
+  </article>
+</BaseLayout>
