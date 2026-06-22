@@ -5,19 +5,19 @@
 @import "@fontsource/newsreader/500.css";
 
 :root {
-  --bg: #f8f8f6;
-  --paper: #ffffff;
-  --surface: #f1f2f1;
-  --surface-strong: #e7e9e8;
-  --line: #d8dcda;
-  --line-strong: #b9c0bc;
-  --ink: #1b1f1d;
-  --muted: #5f6763;
-  --subtle: #7a837f;
-  --accent: #1f6feb;
-  --accent-dark: #164fbe;
-  --accent-soft: #eaf2ff;
-  --danger-soft: #fff1ec;
+  --bg: #101014;
+  --paper: #171820;
+  --surface: #1f202a;
+  --surface-strong: #292a36;
+  --line: #30313e;
+  --line-strong: #4a4b5b;
+  --ink: #f5f6fb;
+  --muted: #a8acbb;
+  --subtle: #818696;
+  --accent: #8a7cff;
+  --accent-dark: #6f5ff0;
+  --accent-soft: rgba(138, 124, 255, 0.16);
+  --danger-soft: rgba(255, 121, 93, 0.14);
   --radius: 8px;
   --radius-sm: 5px;
   --max: 1180px;
@@ -116,7 +116,7 @@ img {
 
 .site-nav a.active,
 .site-nav a:hover {
-  background: var(--paper);
+  background: var(--surface);
   border-color: var(--line);
   color: var(--ink);
 }
@@ -225,7 +225,7 @@ img {
 .button-link.primary {
   background: var(--accent);
   border-color: var(--accent);
-  color: #ffffff;
+  color: #111118;
 }
 
 .button-link:hover {
@@ -256,7 +256,7 @@ img {
 }
 
 .hero-caption {
-  background: rgba(255, 255, 255, 0.92);
+  background: rgba(23, 24, 32, 0.92);
   border: 1px solid var(--line);
   border-radius: var(--radius);
   bottom: 18px;
@@ -340,7 +340,7 @@ img {
 
 .entry-card:hover,
 .signal-panel:hover {
-  background: #fbfcfc;
+  background: var(--surface);
   border-color: var(--accent);
   transform: translateY(-2px);
 }

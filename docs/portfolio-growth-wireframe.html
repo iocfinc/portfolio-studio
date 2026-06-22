@@ -6,22 +6,29 @@
     <title>DIO-69 Portfolio Growth Wireframe</title>
     <style>
       :root {
-        --bg: #f6f7f6;
-        --paper: #ffffff;
-        --ink: #171c1a;
-        --muted: #66706b;
-        --line: #d8ddda;
-        --line-strong: #aeb8b2;
-        --accent: #1f6feb;
-        --accent-soft: #eaf2ff;
-        --green: #244f3d;
-        --amber: #8a5a18;
-        --rose: #8b3e46;
+        --bg: #101014;
+        --paper: #171820;
+        --surface: #1f202a;
+        --surface-strong: #292a36;
+        --ink: #f5f6fb;
+        --muted: #a8acbb;
+        --line: #30313e;
+        --line-strong: #4a4b5b;
+        --accent: #8a7cff;
+        --accent-soft: rgba(138, 124, 255, 0.16);
+        --green: #4ade80;
+        --amber: #f3b45a;
+        --rose: #ff795d;
         --radius: 8px;
         color: var(--ink);
         background: var(--bg);
         font-family:
-          Manrope, "Helvetica Neue", Arial, system-ui, -apple-system, sans-serif;
+          Manrope,
+          "Helvetica Neue",
+          Arial,
+          system-ui,
+          -apple-system,
+          sans-serif;
       }
 
       * {
@@ -140,7 +147,7 @@
 
       .panel.accent {
         background: var(--accent-soft);
-        border-color: #b8d2ff;
+        border-color: rgba(138, 124, 255, 0.45);
       }
 
       .decision-strip {
@@ -170,12 +177,12 @@
       }
 
       .node.primary {
-        background: #17211c;
-        color: #fff;
+        background: var(--surface-strong);
+        color: var(--ink);
       }
 
       .node.primary p {
-        color: #ccd5d0;
+        color: var(--muted);
       }
 
       .map-grid {
@@ -186,7 +193,7 @@
 
       .wireframe {
         border: 1px solid var(--line-strong);
-        background: #fbfbfa;
+        background: var(--paper);
         border-radius: var(--radius);
         min-width: 0;
         overflow: hidden;
@@ -226,7 +233,7 @@
       .box {
         min-height: 42px;
         border: 1px dashed var(--line-strong);
-        background: #fff;
+        background: var(--surface);
         min-width: 0;
         overflow-wrap: anywhere;
         padding: 12px;
@@ -239,8 +246,8 @@
       .box.media {
         min-height: 230px;
         background:
-          linear-gradient(135deg, rgba(31, 111, 235, 0.12), transparent),
-          #fff;
+          linear-gradient(135deg, rgba(138, 124, 255, 0.2), transparent),
+          var(--surface);
       }
 
       .proof-stack {
@@ -268,19 +275,19 @@
         border-bottom: 1px solid var(--line);
         min-height: 42px;
         padding: 10px;
-        background: #fff;
+        background: var(--paper);
         font-size: 0.82rem;
       }
 
       .gantt .label {
         font-weight: 800;
         color: var(--ink);
-        background: #f0f2f1;
+        background: var(--surface);
       }
 
       .bar {
         border-radius: 999px;
-        color: #fff;
+        color: #111118;
         font-weight: 800;
         text-align: center;
       }
@@ -354,8 +361,8 @@
       }
 
       .lane h3 {
-        background: #17211c;
-        color: #fff;
+        background: var(--surface-strong);
+        color: var(--ink);
         padding: 14px;
       }
 
@@ -389,7 +396,7 @@
       }
 
       .ticket-column {
-        background: #eef1ef;
+        background: var(--surface);
         border: 1px solid var(--line);
         border-radius: var(--radius);
         padding: 10px;
@@ -427,7 +434,7 @@
 
       .meter {
         height: 8px;
-        background: #e4e8e6;
+        background: var(--surface-strong);
         border-radius: 999px;
         overflow: hidden;
       }
@@ -554,7 +561,9 @@
               </div>
               <div class="decision">
                 <h3>Community signal</h3>
-                <p>Can Ira observe and contribute to the local builder scene?</p>
+                <p>
+                  Can Ira observe and contribute to the local builder scene?
+                </p>
               </div>
             </div>
           </div>
@@ -590,7 +599,9 @@
             </div>
             <div class="node">
               <h3>/experiments</h3>
-              <p>Runnable demos, prototypes, and agent-supported product bets.</p>
+              <p>
+                Runnable demos, prototypes, and agent-supported product bets.
+              </p>
             </div>
             <div class="node">
               <h3>/now</h3>
@@ -598,7 +609,9 @@
             </div>
             <div class="node">
               <h3>/services</h3>
-              <p>Consulting shapes: AI audit, demo sprint, workshop, advisory.</p>
+              <p>
+                Consulting shapes: AI audit, demo sprint, workshop, advisory.
+              </p>
             </div>
             <div class="node">
               <h3>/archive</h3>
@@ -723,19 +736,36 @@
             <div class="label">Credibility cleanup</div>
             <div class="bar blue" style="grid-column: span 3">audit</div>
             <div class="bar blue">fix</div>
-            <div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
 
             <div class="label">Positioning spine</div>
             <div class="bar green" style="grid-column: span 2">copy</div>
             <div class="bar green" style="grid-column: span 2">home</div>
-            <div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
 
             <div class="label">Proof kit</div>
             <div></div>
-            <div class="bar amber" style="grid-column: span 3">case study 1</div>
+            <div class="bar amber" style="grid-column: span 3">
+              case study 1
+            </div>
             <div class="bar amber" style="grid-column: span 3">playbook 1</div>
             <div class="bar amber" style="grid-column: span 3">demo 1</div>
-            <div></div><div></div>
+            <div></div>
+            <div></div>
 
             <div class="label">Writing engine</div>
             <div class="bar rose">note</div>
@@ -752,11 +782,17 @@
             <div class="bar rose">quarterly</div>
 
             <div class="label">Photography/events</div>
-            <div></div><div></div>
-            <div class="bar green" style="grid-column: span 2">Codex meetup</div>
             <div></div>
-            <div class="bar green" style="grid-column: span 2">gallery model</div>
-            <div></div><div></div>
+            <div></div>
+            <div class="bar green" style="grid-column: span 2">
+              Codex meetup
+            </div>
+            <div></div>
+            <div class="bar green" style="grid-column: span 2">
+              gallery model
+            </div>
+            <div></div>
+            <div></div>
             <div class="bar green" style="grid-column: span 2">next event</div>
             <div></div>
           </div>
@@ -782,7 +818,9 @@
               One flagship AI systems case study, one playbook, one demo page,
               one architecture diagram, one public-safe field note.
             </p>
-            <p><strong>Ship signal:</strong> readers see proof in 90 seconds.</p>
+            <p>
+              <strong>Ship signal:</strong> readers see proof in 90 seconds.
+            </p>
           </div>
           <div class="panel release">
             <p class="tag">Release 2 · 60 days</p>
@@ -960,20 +998,33 @@
             <h3>Foreground: CEO / Chief Architect decisions</h3>
             <ul>
               <li>Approve positioning, sitemap, services stance, and tone.</li>
-              <li>Approve public-safe boundaries for workplace-adjacent writing.</li>
+              <li>
+                Approve public-safe boundaries for workplace-adjacent writing.
+              </li>
               <li>Pick flagship proof pieces and reject weak narratives.</li>
-              <li>Review visual direction before agents implement broad changes.</li>
+              <li>
+                Review visual direction before agents implement broad changes.
+              </li>
               <li>Decide when a draft becomes public versus stays private.</li>
             </ul>
           </div>
           <div class="lane">
             <h3>Background: agent-owned execution</h3>
             <ul>
-              <li>Audit links, routes, stale claims, screenshots, and mobile states.</li>
+              <li>
+                Audit links, routes, stale claims, screenshots, and mobile
+                states.
+              </li>
               <li>Draft PRD/ADR/BDD/WTF packets from approved strategy.</li>
-              <li>Generate page skeletons, content calendars, and Linear seeds.</li>
-              <li>Run route smoke, link checks, visual checks, and build commands.</li>
-              <li>Loop on failures until blocked by an explicit decision boundary.</li>
+              <li>
+                Generate page skeletons, content calendars, and Linear seeds.
+              </li>
+              <li>
+                Run route smoke, link checks, visual checks, and build commands.
+              </li>
+              <li>
+                Loop on failures until blocked by an explicit decision boundary.
+              </li>
             </ul>
           </div>
         </div>
@@ -1019,14 +1070,20 @@
             <h3>CEO Review</h3>
             <div class="ticket">
               <p class="tag">DIO-69A</p>
-              <p>Approve sitemap, campaign calendar, and foreground/background contract.</p>
+              <p>
+                Approve sitemap, campaign calendar, and foreground/background
+                contract.
+              </p>
             </div>
           </div>
           <div class="ticket-column">
             <h3>Ready</h3>
             <div class="ticket">
               <p class="tag">DIO-69B</p>
-              <p>Proof audit: stale links, old claims, retired demos, contact behavior.</p>
+              <p>
+                Proof audit: stale links, old claims, retired demos, contact
+                behavior.
+              </p>
             </div>
             <div class="ticket">
               <p class="tag">DIO-69C</p>
@@ -1048,14 +1105,20 @@
             <h3>Research Lane</h3>
             <div class="ticket">
               <p class="tag">DIO-69F</p>
-              <p>AI FDE portfolio examples, Databricks/OpenAI role signals, service positioning.</p>
+              <p>
+                AI FDE portfolio examples, Databricks/OpenAI role signals,
+                service positioning.
+              </p>
             </div>
           </div>
           <div class="ticket-column">
             <h3>Later</h3>
             <div class="ticket">
               <p class="tag">DIO-69G</p>
-              <p>Agent fleet orchestration workflow after CodexSkills packet is approved.</p>
+              <p>
+                Agent fleet orchestration workflow after CodexSkills packet is
+                approved.
+              </p>
             </div>
           </div>
         </div>
@@ -1068,7 +1131,9 @@
             <div class="checks">
               <div class="check">
                 <span class="square"></span>
-                <p>No confidential employer/customer details in public writing.</p>
+                <p>
+                  No confidential employer/customer details in public writing.
+                </p>
               </div>
               <div class="check">
                 <span class="square"></span>
@@ -1076,7 +1141,10 @@
               </div>
               <div class="check">
                 <span class="square"></span>
-                <p>Every demo has live state: works, retired, or clearly archived.</p>
+                <p>
+                  Every demo has live state: works, retired, or clearly
+                  archived.
+                </p>
               </div>
               <div class="check">
                 <span class="square"></span>
@@ -1088,7 +1156,9 @@
               </div>
               <div class="check">
                 <span class="square"></span>
-                <p>Photography supports the brand thesis, not a disconnected tab.</p>
+                <p>
+                  Photography supports the brand thesis, not a disconnected tab.
+                </p>
               </div>
             </div>
           </div>
@@ -1097,8 +1167,8 @@
             <p>
               External role signals came from Databricks and OpenAI role pages:
               field engineers are expected to create reference architectures,
-              demos, workshops, POCs, AI application guidance, and customer value
-              narratives.
+              demos, workshops, POCs, AI application guidance, and customer
+              value narratives.
             </p>
             <p>
               Public search did not verify a specific Vincent/OpenFlow article.
@@ -1108,9 +1178,18 @@
             </p>
             <p>
               Links to review:
-              <a href="https://www.databricks.com/company/careers/field-engineering/solutions-architect-5898477002">Databricks SA</a>,
-              <a href="https://www.databricks.com/company/careers/field-engineering---fe-direct-regulated/specialist-solutions-architect---ai-ml-8544533002">Databricks AI/ML SSA</a>,
-              <a href="https://openai.com/careers/solutions-engineer-financial-services-san-francisco/">OpenAI Solutions Engineer</a>.
+              <a
+                href="https://www.databricks.com/company/careers/field-engineering/solutions-architect-5898477002"
+                >Databricks SA</a
+              >,
+              <a
+                href="https://www.databricks.com/company/careers/field-engineering---fe-direct-regulated/specialist-solutions-architect---ai-ml-8544533002"
+                >Databricks AI/ML SSA</a
+              >,
+              <a
+                href="https://openai.com/careers/solutions-engineer-financial-services-san-francisco/"
+                >OpenAI Solutions Engineer</a
+              >.
             </p>
           </div>
         </div>

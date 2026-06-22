@@ -23,7 +23,7 @@ All content is file-based under `src/content/` so publishing stays low-friction 
 
 - Base-inspired system discipline translated into local Astro/CSS
 - `Manrope` for interface, navigation, body, and display hierarchy
-- Neutral off-white/white surfaces, charcoal ink, restrained blue accent
+- Cream-free charcoal surfaces, near-white ink, and restrained violet accent
 - 1px separators, 8px radii, compact metadata, and mobile-first wrapping
 - Real photography assets in `public/assets/photos/`
 
