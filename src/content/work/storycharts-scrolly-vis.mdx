@@ -1,0 +1,99 @@
+---
+title: "StoryCharts Scrollytelling Runtime"
+summary: "Modular newsroom charting and scrollytelling engine built on TOAST UI Chart and Scrollama with stateful annotations, declarative theme tokens, and standalone exports."
+publishedAt: 2026-06-10
+featured: true
+role: "Frontend architecture, TypeScript package design, visual storytelling engine"
+year: "2026"
+outcomes:
+  - "Architected a decoupled monorepo toolkit (@storycharts/core, theme, scroll, studio) enabling rapid newsroom graphic composition."
+  - "Built an interactive browser studio for CSV/JSON ingestion, field mapping, stateful highlights, and newsroom framing controls."
+  - "Enabled zero-dependency exports to standalone .html and version-controlled .storychart.json manifests."
+stack:
+  - TypeScript
+  - TOAST UI Chart
+  - Scrollama
+  - Monorepo packages
+  - Scrollytelling
+  - Static exports
+---
+
+Newsroom graphics teams face a constant tension between development speed and bespoke narrative craft. Generic charting libraries produce rigid, dashboard-style visuals that lack narrative timing, while custom scrollytelling articles are often built as fragile one-offs that rot quickly and resist reuse.
+
+StoryCharts resolves this tension by providing a modular, newsroom-focused charting runtime and authoring studio.
+
+## The Problem
+
+Interactive editorial storytelling requires charts that adapt dynamically as readers scroll through prose:
+
+- **Stateful Progression:** Graphics must transition between states—highlighting specific series, revealing annotations, shifting focus—in sync with reader position.
+- **Layout Fragility:** Custom scrollytelling projects frequently break across responsive breakpoints, mobile viewports, or embedded CMS layouts.
+- **Authoring Friction:** Journalists and data editors often lack the time to hand-code complex DOM observers, coordinate resize loops, or wire bespoke chart themes.
+
+## The Modular Architecture
+
+StoryCharts is structured as a clean TypeScript monorepo with strict package boundaries:
+
+```text
+               ┌───────────────────────┐
+               │  @storycharts/studio  │ (Browser-based editor & preview)
+               └───────────┬───────────┘
+                           │
+             ┌─────────────┴─────────────┐
+             ▼                           ▼
+   ┌────────────────────┐      ┌────────────────────┐
+   │ @storycharts/core  │      │ @storycharts/theme │
+   │ (Runtime & states) │      │ (CSS design tokens)│
+   └─────────┬──────────┘      └────────────────────┘
+             │
+             ▼
+   ┌────────────────────┐
+   │ @storycharts/scroll│ (Scrollama IntersectionObserver)
+   └────────────────────┘
+```
+
+### 1. Core Runtime (`@storycharts/core`)
+
+Wraps the underlying TOAST UI Chart engine with a deterministic state machine. It manages series visibility, stateful highlight triggers, custom viewport annotations, and responsive resize debounce observers without leaking DOM implementation details.
+
+### 2. Editorial Theme Tokens (`@storycharts/theme`)
+
+Defines high-contrast, newsroom-ready typographic hierarchies and color palettes. Themes are implemented using pure CSS custom properties, allowing publication-wide branding, dark/light mode toggling, and accessible text contrast out of the box.
+
+### 3. Scroll Coordination (`@storycharts/scroll`)
+
+A lightweight wrapper around Scrollama and browser `IntersectionObserver` primitives. It synchronizes scroll step triggers with core chart transition states, ensuring smooth entry, pin, and exit transitions across both mobile touch screens and desktop trackpads.
+
+### 4. Authoring Studio (`@storycharts/studio`)
+
+A browser-based client application enabling data journalists to:
+
+- Ingest raw CSV and JSON tabular datasets;
+- Configure field mappings and select chart topologies (line, area, bar, scatter);
+- Configure editorial framing (deck, kicker, source citations, notes);
+- Author step-by-step annotation triggers with live visual preview;
+- Export zero-dependency standalone `.html` embeds or version-controlled `.storychart.json` project specs.
+
+## Evaluation Surfaces
+
+The toolkit enforces contracts across rendering, data handling, and export fidelity:
+
+| Surface                   | What it checks                                                                         |
+| :------------------------ | :------------------------------------------------------------------------------------- |
+| **Data Ingestion**        | Robust parsing of CSV/JSON feeds, automatic type inference, and validation.            |
+| **State Transitions**     | Smooth interpolation between chart highlights and step-bound annotations.              |
+| **Scroll Sync**           | Jitter-free triggers across mobile touch viewports and desktop scrolling.              |
+| **Export Integrity**      | Verifies that exported standalone `.html` files render identically to studio previews. |
+| **Responsive Adaptation** | Graceful degradation of legends, axis labels, and tooltip overlays on narrow screens.  |
+
+## What This Proves
+
+StoryCharts demonstrates that bespoke visual journalism does not require throwaway code:
+
+- **Separation of concerns:** Decoupling chart logic, thematic styling, scroll binding, and authoring tools keeps each layer simple and testable.
+- **Portability:** Static `.html` and JSON spec exports guarantee that graphics remain hostable on any static CDN or CMS without backend dependencies.
+- **Editorial ergonomics:** By lowering the barrier to entry for scrollytelling, teams can focus on narrative clarity and data accuracy.
+
+## Current Limits
+
+The runtime is optimized for 2D cartesian and time-series representations. Multi-dimensional spatial projections and complex hierarchical diagrams (e.g., Voronoi treemaps) still require dedicated geospatial or D3-level customization.

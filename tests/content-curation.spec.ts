@@ -5,6 +5,7 @@ import {
   pickFeaturedEssay,
   pickFeaturedPhotoStory,
   pickFeaturedWork,
+  pickFeaturedWorks,
 } from "../src/utils/content";
 
 const essays = [
@@ -93,6 +94,10 @@ describe("content curation", () => {
     expect(pickFeaturedEssay(essays)?.id).toBe("field-notes");
     expect(pickFeaturedPhotoStory(photoStories)?.id).toBe("bangkok-night-walk");
     expect(pickFeaturedWork(work)?.id).toBe("tradingagents-packets");
+    expect(pickFeaturedWorks(work, 3).map((w) => w.id)).toEqual([
+      "tradingagents-packets",
+      "portfolio-studio",
+    ]);
   });
 
   it("falls back to the newest item when no featured flag exists", () => {

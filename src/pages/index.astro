@@ -11,7 +11,7 @@ import {
   notePermalink,
   pickFeaturedEssay,
   pickFeaturedPhotoStory,
-  pickFeaturedWork,
+  pickFeaturedWorks,
 } from "../utils/content";
 
 const essays = await getCollection("essays");
@@ -21,7 +21,7 @@ const work = await getCollection("work");
 
 const featuredEssay = pickFeaturedEssay(essays);
 const featuredPhotoStory = pickFeaturedPhotoStory(photoStories);
-const featuredWork = pickFeaturedWork(work);
+const featuredWorks = pickFeaturedWorks(work, 3);
 const latestNotes = [...notes].sort(
   (left, right) =>
     right.data.publishedAt.getTime() - left.data.publishedAt.getTime(),
@@ -74,19 +74,21 @@ const latestNotes = [...notes].sort(
       <SectionHeading
         kicker="Selected work"
         title="Technical work with a clearer point of view."
-        intro="A small number of case studies that explain why the work mattered, not only what shipped."
+        intro="High-signal case studies across dMRV geospatial pipelines, visual storytelling, and production ML systems."
       />
-      {
-        featuredWork && (
-          <EntryCard
-            href={entryPermalink("work", featuredWork.id)}
-            title={featuredWork.data.title}
-            summary={featuredWork.data.summary}
-            meta={`${featuredWork.data.year} · ${featuredWork.data.role}`}
-            variant="work"
-          />
-        )
-      }
+      <div class="work-list">
+        {
+          featuredWorks.map((item) => (
+            <EntryCard
+              href={entryPermalink("work", item.id)}
+              title={item.data.title}
+              summary={item.data.summary}
+              meta={`${item.data.year} · ${item.data.role}`}
+              variant="work"
+            />
+          ))
+        }
+      </div>
     </div>
   </section>
 

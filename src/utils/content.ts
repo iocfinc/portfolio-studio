@@ -39,6 +39,23 @@ export function pickFeaturedWork<T extends DatedEntry>(entries: T[]) {
   return pickFeaturedEntry(entries);
 }
 
+export function pickFeaturedWorks<T extends DatedEntry>(
+  entries: T[],
+  limit = 3,
+): T[] {
+  const featured = sortNewestFirst(
+    entries.filter((entry) => entry.data.featured),
+  );
+  if (featured.length >= limit) {
+    return featured.slice(0, limit);
+  }
+
+  const nonFeatured = sortNewestFirst(
+    entries.filter((entry) => !entry.data.featured),
+  );
+  return [...featured, ...nonFeatured].slice(0, limit);
+}
+
 export function groupNotesByYear<T extends DatedEntry>(
   entries: T[],
 ): GroupedYear[] {
