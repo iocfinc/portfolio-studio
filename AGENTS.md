@@ -30,6 +30,14 @@
 - Do not change generated files unless the source and generation path are both updated.
 - Keep edits minimal and local to the task.
 
+## Brand & Design System Linkage (Hydrogen v2)
+
+For shared brand tokens, typography, and case study styling:
+
+- **Canonical Brand Kit:** `../hydrogen-brand-kit-v2/`
+- **Design Tokens:** `../hydrogen-brand-kit-v2/tokens/`
+- **Brand Assets:** `../hydrogen-brand-kit-v2/assets/` and `svg/`
+
 ## Review Expectations
 
 - Call out user-visible risks and untested paths.
