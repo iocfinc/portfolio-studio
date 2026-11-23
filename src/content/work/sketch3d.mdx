@@ -1,0 +1,131 @@
+---
+title: "Sketch3d: Browser Parametric CAD & Slicer Guardrails"
+summary: "Touch-first client-side WebGL CAD sketcher for iPad and desktop with centroid-anchored procedural modifiers, FDM printability guardrails, and zero-dependency binary STL/3MF export."
+publishedAt: 2026-06-20
+featured: true
+role: "Product engineering, WebGL geometry kernel, FDM slicer pipeline"
+year: "2026"
+outcomes:
+  - "Built a client-side Three.js parametric modeling kernel (0 server dependencies) with Apple Pencil/touch snapping (1mm/5mm/10mm), live millimeter dimensioning, and concentric M2–M5 metric screw holes (+0.2mm FDM clearance)."
+  - "Engineered centroid-anchored twist deformers, revolve axis normalization, open-bottom lampshade shells, and self-supporting parametric lattices (perforated-weave, lfam-rib)."
+  - "Implemented Bambu Lab A1 build-volume (256×256×256mm) and wall-thickness (>= 1.2mm) guardrails with decoupled mini-proof (40%) and swatch test-scaling."
+  - "Developed zero-dependency client-side binary .STL and multi-object PKZIP .3MF slicer-ready exporters with translucent clear glass profiles."
+  - "Validated with a 94-test headless browser suite, a 19-check repository hygiene audit, and a 10-recipe dual-agent geometry evaluation harness."
+stack:
+  - WebGL / Three.js
+  - Client-side CAD
+  - FDM Slicer Pipelines
+  - 3MF / Binary STL Export
+  - Parametric Modeling
+  - Automated E2E Testing
+---
+
+Traditional desktop CAD packages (Fusion 360, SolidWorks, FreeCAD) are heavy, cloud-tethered, or complex, requiring full keyboard-and-mouse setups and steep learning curves for simple functional prints. Meanwhile, consumer-grade web 3D tools often generate non-manifold polygons, lack millimeter mechanical accuracy, and ignore physical fused deposition modeling (FDM) manufacturing constraints.
+
+Sketch3d resolves this divide by delivering a lightweight, touch-first parametric modeling environment running 100% in the browser. It combines direct canvas drafting with instant FDM printability feedback, specifically calibrated for the Bambu Lab A1 build volume and modern slicer workflows.
+
+The live interactive application is hosted at [https://iocfinc.github.io/sketch3d/](https://iocfinc.github.io/sketch3d/).
+
+## The Problem
+
+Designing physical objects directly in the browser on touch screens (iPad) and desktop trackpads introduces three systemic engineering hurdles:
+
+- **Touch Precision vs. Mechanical Tolerances:** Freehand stylus input naturally creates irregular, non-parallel segments. Without adaptive snapping and live dimensioning, producing functional press-fit parts or metric hardware clearances is nearly impossible.
+- **Modifier Distortion & Geometry Drift:** Applying procedural modifiers—such as extrusion, bevels, twists, and shelling—to arbitrary user polygons frequently causes the geometry to twist off-center, self-intersect, or thin below physical extrusion thresholds.
+- **Slicer Incompatibility:** Meshes that appear watertight in a WebGL viewport routinely fail when sliced in Bambu Studio, OrcaSlicer, or PrusaSlicer due to non-manifold edges, zero-thickness walls, inverted normal vectors, or missing print orientation metadata.
+
+## The System Architecture
+
+Sketch3d operates as a pure client-side pipeline with zero server roundtrips, translating 2D planar sketches into validated 3D manufacturing bundles:
+
+```text
+┌────────────────────────────────────────────────────────┐
+│ 2D Touch Canvas (Apple Pencil / pointer events)        │
+│ - Multi-tier grid snapping (1mm / 5mm / 10mm)          │
+│ - Live edge dimension pills & metric holes (M2–M5)     │
+└───────────────────────────┬────────────────────────────┘
+                            │ Closed 2D Profile
+                            ▼
+┌────────────────────────────────────────────────────────┐
+│ Geometry Kernel & Procedural Modifiers                 │
+│ - Height extrusion clamped to 256mm A1 volume ceiling  │
+│ - Centroid-anchored twist & revolve axis normalization │
+│ - 3D shelling (hollow cavity, open-bottom lampshades)  │
+│ - Parametric surface lattices (perforated-weave, LFAM) │
+└───────────────────────────┬────────────────────────────┘
+                            │ Watertight Manifold Mesh
+                            ▼
+┌────────────────────────────────────────────────────────┐
+│ FDM Manufacturing Guardrails & Test Scaling            │
+│ - Live PLA mass (g) & print duration estimation        │
+│ - Wall thickness thresholding (>= 1.2mm alert)         │
+│ - Decoupled mini-proof (40%) & 35mm swatch testing     │
+└───────────────────────────┬────────────────────────────┘
+                            │ Slicer-Ready Package
+                            ▼
+┌────────────────────────────────────────────────────────┐
+│ Zero-Dependency Exporters                              │
+│ - Little-endian binary .STL buffer                     │
+│ - PKZIP .3MF bundle with clear glass slicer metadata   │
+└────────────────────────────────────────────────────────┘
+```
+
+## Key Technical Highlights
+
+### 1. Touch-First Snapping & Concentric Metric Hardware
+
+The 2D drafting canvas handles pointer events and Apple Pencil stylus input with sub-pixel precision. It features an adaptive multi-tier snap grid (`1mm`, `5mm`, `10mm`) and automatic polygon closure detection.
+
+For functional hardware integration, users can drop concentric metric clearance holes (`M2`, `M3`, `M4`, `M5`) directly into planar faces. Each hole profile automatically factors in a `+0.2mm` diametrical expansion to counteract FDM filament shrinkage and inner-perimeter contraction, ensuring fasteners drop through cleanly without post-print drilling.
+
+### 2. Centroid-Anchored Modifiers & Procedural Lattices
+
+Standard vertex extrusion and rotational modifiers typically deform geometry relative to the world coordinate origin `(0, 0, 0)`. When a user drafts an asymmetrical or off-center profile, angular twisting causes the part to corkscrew across the bed.
+
+Sketch3d computes the exact 2D polygon centroid `(Cx, Cy)` using polygonal area moments:
+
+```text
+Cx = (1 / 6A) * Σ (x_i + x_{i+1}) * (x_i * y_{i+1} - x_{i+1} * y_i)
+Cy = (1 / 6A) * Σ (y_i + y_{i+1}) * (x_i * y_{i+1} - x_{i+1} * y_i)
+```
+
+All rotational twists are applied relative to this centroidal vertical axis, guaranteeing zero bottom-to-top centroid drift (≤ 0.05 mm). Revolve (lathe) profiles undergo automatic axis normalization, clamping negative radii (r ≥ 0.5 mm) to eliminate zero-radius mesh singularities.
+
+For architectural and lighting products, the kernel supports open-bottom lampshade shells and procedural exterior relief—including helical ripples, coral Turing patterns, perforated basket weaves, and large-format additive manufacturing (LFAM) wide-bead ribs—while preserving flat mating rims and smooth interior cavities.
+
+### 3. FDM Guardrails & Decoupled Test Scaling
+
+To prevent wasted filament, the interface continuously evaluates geometry against physical printer capabilities:
+
+- **Build Volume Ceiling:** Height and width dimensions are hard-clamped to the Bambu Lab A1 build volume (256 × 256 × 256 mm), accompanied by a persistent `#fitBadge` indicator.
+- **Wall Thickness Guard:** Shelling offsets warn users if outer-to-inner wall thickness drops below 1.2 mm (3 perimeters on a 0.4 mm nozzle).
+- **Decoupled Scale Proofing:** Users can generate a 40% Mini Proof or a 35 mm Swatch before committing to multi-hour prints. In mini-proof mode, macroscopic dimensions are scaled to 40% while texture relief amplitudes are decoupled and clamped (≥ 0.65 mm) so delicate surface features do not disappear below nozzle resolution.
+
+### 4. Zero-Dependency Binary STL & PKZIP 3MF Exporters
+
+Rather than relying on heavyweight external libraries, Sketch3d implements client-side binary serialization from first principles:
+
+- **Binary STL:** Serializes vertices and facet surface normals directly into a little-endian `ArrayBuffer` with an 80-byte header and triangle count, ready for instant browser download.
+- **PKZIP 3MF Multi-Object Bundle:** Assembles an in-memory ZIP package containing the OPC XML relationships, `3D/3dmodel.model` mesh data, and customized slicer profiles. The included **Clear Glass PETG** profile configures 0% cooling fan, 100% aligned rectilinear infill, and elevated nozzle temperatures to achieve optical clarity on transparent filaments.
+
+## Evaluation & Verification Surfaces
+
+Reliability in CAD geometry requires automated verification across browser ergonomics, security posture, and topological math:
+
+| Surface                            | Harness / Tool                                 | Scope & Contract                                                                                                                                                                            |
+| :--------------------------------- | :--------------------------------------------- | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| **Headless E2E Browser Suite**     | `tests/verify_app.mjs` (Puppeteer)             | **94 / 94 checks passed.** Verifies DOM token contracts, layout scaling at 375px/768px/1280px, modifier math, zero runtime console errors, and non-NaN vertex arrays.                       |
+| **Repository Hygiene & PII Audit** | `scripts/repo_audit.py` (Python AST/regex)     | **19 / 19 checks passed.** Enforces 0 local machine paths, 0 secrets, pinned HTTPS CDN assets, unique DOM element IDs, and strict ≤ 500 line module limits.                                 |
+| **Dual-Agent Geometry Evals**      | `run_eval_executor.mjs` + `run_eval_judge.mjs` | **10 / 10 recipes passed.** Dual-agent pipeline executing automated stress recipes (twisted open lampshades, basket-weave outer relief, lathe symmetry) graded by an adversarial evaluator. |
+
+## What This Proves
+
+Sketch3d demonstrates that browser-native engineering applications can achieve high physical fidelity without heavy backends:
+
+- **Zero-Compute Footprint:** By executing all meshing, modifier math, and file serialization inside the browser, the platform scales infinitely at zero server hosting cost.
+- **Physical Constraints as First-Class Primitives:** Embedding manufacturing realities (bed volume, nozzle diameter, perimeter counts, hardware clearances) directly into the UI prevents print failures before slicer ingestion.
+- **Reproducible Generative Geometry:** Centroid-anchored math and dual-agent evaluation prove that complex procedural modifiers can remain predictable and test-driven.
+
+## Current Limits
+
+The current release is optimized for single-contour closed 2D profiles extruded or revolved into single-body vessels, shades, and enclosures. Multi-body CSG boolean trees and freeform organic clay sculpting (best left to mesh sculptors like Blender) remain intentionally outside the core design scope.

@@ -11,6 +11,7 @@ const preservedRoutes = [
   "/archive/",
   "/archive/legacy-2019/",
   "/games/concentration/",
+  "/tools/storycharts/",
   "/css/",
   "/js/",
   "/fonts/",
